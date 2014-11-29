@@ -1,0 +1,6 @@
+en:
+  simple_captcha_reloaded:
+    errors:
+      missing_captcha: 'no captcha parameters found'
+      blank: 'Please fill in the words above'
+      wrong: 'The entered text was not correct. Please try again.'

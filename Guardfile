@@ -16,3 +16,6 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch('spec/rails_helper.rb')  { "spec" }
 end
 
+# guard :shell do
+#   watch(%r{spec/template.rb}) { `make regenerate` }
+# end

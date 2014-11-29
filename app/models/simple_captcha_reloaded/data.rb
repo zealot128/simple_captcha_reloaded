@@ -2,6 +2,7 @@ module SimpleCaptchaReloaded
   class Data < ActiveRecord::Base
 
     def self.generate_captcha_id(old_key: nil)
+      SimpleCaptchaReloaded::Data.clear unless Rails.env.test?
       if old_key
         SimpleCaptchaReloaded::Data.where(key: old_key).delete_all
       end

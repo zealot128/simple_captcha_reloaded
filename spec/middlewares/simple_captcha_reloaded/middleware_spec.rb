@@ -32,6 +32,6 @@ describe SimpleCaptchaReloaded::Middleware do
     expect(SimpleCaptchaReloaded::Data.where(key: '123123').first).to be_nil
     code = response.body[/code=([^&]+)/, 1]
     expect(SimpleCaptchaReloaded::Data.where(key: code).first).to be_present
-    Uglifier.compile(response.body)
+    Uglifier.compile(response.body) # check for js syntax errors
   end
 end

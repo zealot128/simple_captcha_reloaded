@@ -10,7 +10,6 @@ class SimpleCaptchaReloaded::Middleware
 
   def call(env)
     @env = env
-    SimpleCaptchaReloaded::Data.clear
     if env["REQUEST_METHOD"] == "GET" && captcha_path?(env['PATH_INFO'])
       if request.params.present? && (code = request.params['code']) && code.present?
         make_image(code)

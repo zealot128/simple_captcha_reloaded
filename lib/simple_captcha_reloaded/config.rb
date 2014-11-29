@@ -4,10 +4,10 @@ class SimpleCaptchaReloaded::Config
   cattr_accessor :characters
   cattr_accessor :length
 
-  def self.image_url(code, request)
+  def self.image_url(code, request, id: nil)
     time = Time.now.to_i
-    path = captcha_path + "?code=#{code}&time=#{time}"
-    if defined?(request.protocol)
+    path = captcha_path + "?code=#{code}&time=#{time}&id=#{id}"
+    if request && defined?(request.protocol)
       "#{request.protocol}#{request.host_with_port}#{ENV['RAILS_RELATIVE_URL_ROOT']}#{path}"
     else
       "#{ENV['RAILS_RELATIVE_URL_ROOT']}#{path}"
