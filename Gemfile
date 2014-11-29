@@ -8,3 +8,5 @@ gemspec
 gem 'simple_form'
 gem 'slim-rails'
 gem 'poltergeist'
+gem 'jquery-rails'
+gem 'turbolinks'

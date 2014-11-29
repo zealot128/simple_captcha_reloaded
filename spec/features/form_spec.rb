@@ -17,7 +17,13 @@ describe 'Form', js: true do
     visit '/forms/simple_form'
     find('.simple-captcha-image')
 
-    click_on 'refresh'
+    click_on 'Refresh'
+    sleep 1
+    expect( SimpleCaptchaReloaded::Data.count ).to eql 2
+    captcha = SimpleCaptchaReloaded::Data.order('id desc').first
+    expect(page.body).to include captcha.key
+    fill_in 'Captcha', with: captcha.value
+    fill_in "Title", with: 'blah'
 
     click_on 'Create'
     expect(find('body').text).to eql 'valid'

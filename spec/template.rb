@@ -35,3 +35,9 @@ create_file "app/views/forms/simple_form.html.slim", %q{
   = f.input :captcha, as: :simple_captcha
   = f.submit
 }
+remove_file 'app/assets/javascripts/application.js'
+create_file 'app/assets/javascripts/application.js', <<DOC
+//= require jquery
+//= require jquery_ujs
+//= require turbolinks
+DOC

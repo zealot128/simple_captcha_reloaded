@@ -26,7 +26,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry'
   s.add_development_dependency 'pry-doc'
   s.add_development_dependency 'uglifier'
-  s.add_development_dependency 'slim-rails'
-  s.add_development_dependency 'simple_form'
   s.add_development_dependency 'database_cleaner'
 end

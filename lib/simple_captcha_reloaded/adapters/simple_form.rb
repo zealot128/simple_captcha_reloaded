@@ -9,13 +9,23 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
               else
                 ""
               end
-    (image_tag(code) + captcha_key(code) + input + refresh).html_safe
+    [
+      image_tag(code),
+      captcha_key(code),
+      input,
+      refresh
+    ].join.html_safe
   end
 
   protected
 
   def refresh_button(code)
-    binding.pry
+    template.content_tag :div, class: 'simple-captcha-reload' do
+      url = SimpleCaptchaReloaded::Config.refresh_url(template.request, id: options[:captcha][:id])
+      template.link_to url, class: options[:captcha][:refresh_button_class], data: {remote: true} do
+        I18n.t('simple_captcha_reloaded.refresh_button_html')
+      end
+    end
   end
 
   def set_options
@@ -32,7 +42,7 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
 
 
   def image_tag(code)
-    url = SimpleCaptchaReloaded::Config.image_url(code, template.request, id: options[:captcha][:id])
+    url = SimpleCaptchaReloaded::Config.image_url(code, template.request)
     template.content_tag(:img, nil, src: url, alt: 'Captcha', class: 'simple-captcha-image')
   end
 
