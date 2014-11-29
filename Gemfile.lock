@@ -40,6 +40,7 @@ GEM
     coderay (1.1.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    execjs (2.2.1)
     ffi (1.9.3)
     formatador (0.2.5)
     guard (2.6.1)
@@ -96,7 +97,6 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    rkelly (1.0.7)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
@@ -134,6 +134,9 @@ GEM
     timers (1.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    uglifier (2.5.3)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
     yard (0.8.7.6)
 
 PLATFORMS
@@ -144,7 +147,7 @@ DEPENDENCIES
   pry
   pry-doc
   rails-dummy
-  rkelly
   rspec-rails
   simple_captcha_reloaded!
   sqlite3
+  uglifier

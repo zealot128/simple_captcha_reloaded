@@ -10,5 +10,9 @@ module SimpleCaptchaReloaded
       key
     end
 
+    def self.clear
+      SimpleCaptchaReloaded::Data.where('created_at < ?', 1.hour.ago).delete_all
+    end
+
   end
 end

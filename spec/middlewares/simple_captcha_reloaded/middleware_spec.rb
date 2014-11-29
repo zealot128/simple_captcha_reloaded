@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'simple_captcha_reloaded'
 require "rack/test"
-require 'rkelly'
+require 'uglifier'
 
 
 describe SimpleCaptchaReloaded::Middleware do
@@ -32,6 +32,6 @@ describe SimpleCaptchaReloaded::Middleware do
     expect(SimpleCaptchaReloaded::Data.where(key: '123123').first).to be_nil
     code = response.body[/code=([^&]+)/, 1]
     expect(SimpleCaptchaReloaded::Data.where(key: code).first).to be_present
-    binding.pry
+    Uglifier.compile(response.body)
   end
 end
