@@ -11,6 +11,7 @@ before_install:
 - mysql -e 'create database simple_captcha_reloaded_development'
 - psql -c 'create database simple_captcha_reloaded_test' -U postgres
 - psql -c 'create database simple_captcha_reloaded_development' -U postgres
-- make regenerate
+- bundle install
+- TEMPLATE='spec/template.rb' ENGINE='simple_captcha_reloaded' bundle exec rake dummy:app
 script:
 - bundle exec rspec
