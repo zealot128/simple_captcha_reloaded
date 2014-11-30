@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ../
   specs:
     simple_captcha_reloaded (0.0.1)
       rails (~> 4.1)
@@ -200,6 +200,7 @@ DEPENDENCIES
   poltergeist
   pry
   pry-doc
+  rails (~> 4.1.0)
   rails-dummy
   rspec-rails
   simple_captcha_reloaded!

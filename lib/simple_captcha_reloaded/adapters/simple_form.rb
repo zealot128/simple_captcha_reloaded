@@ -21,7 +21,7 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
 
   def refresh_button(code)
     template.content_tag :div, class: 'simple-captcha-reload' do
-      url = SimpleCaptchaReloaded::Config.refresh_url(template.request, id: options[:captcha][:id])
+      url = SimpleCaptchaReloaded::Config.refresh_url(template.request, options[:captcha][:id])
       template.link_to url, class: options[:captcha][:refresh_button_class], data: {remote: true} do
         I18n.t('simple_captcha_reloaded.refresh_button_html')
       end

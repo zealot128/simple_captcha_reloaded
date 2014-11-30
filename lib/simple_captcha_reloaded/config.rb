@@ -14,17 +14,17 @@ class SimpleCaptchaReloaded::Config
     end
   end
 
-  def self.refresh_url(id, request)
-    path = captcha_path
+  def self.refresh_url(request, id)
+    path = captcha_path + "?id=#{id}"
     if request && defined?(request.protocol)
       "#{request.protocol}#{request.host_with_port}#{ENV['RAILS_RELATIVE_URL_ROOT']}#{path}"
     else
-      "#{ENV['RAILS_RELATIVE_URL_ROOT']}#{path}.js"
+      "#{ENV['RAILS_RELATIVE_URL_ROOT']}#{path}"
     end
   end
 
   def self.generate_challenge
-    key = Digest::MD5.hexdigest(Time.now.to_i.to_s)
+    key = SecureRandom.uuid
     value = length.times.map do |i|
       characters.sample
     end

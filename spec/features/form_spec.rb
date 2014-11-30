@@ -21,6 +21,7 @@ describe 'Form', js: true do
     sleep 1
     expect( SimpleCaptchaReloaded::Data.count ).to eql 2
     captcha = SimpleCaptchaReloaded::Data.order('id desc').first
+    screenshot
     expect(page.body).to include captcha.key
     fill_in 'Captcha', with: captcha.value
     fill_in "Title", with: 'blah'
