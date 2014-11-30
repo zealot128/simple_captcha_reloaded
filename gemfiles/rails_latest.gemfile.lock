@@ -229,6 +229,7 @@ DEPENDENCIES
   pry-doc
   rails (~> 4.2.0.rc1)
   rails-dummy
+  rake
   rspec-rails
   simple_captcha_reloaded!
   simple_form (~> 3.0.0)
