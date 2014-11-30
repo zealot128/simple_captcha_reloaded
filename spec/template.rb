@@ -41,3 +41,18 @@ create_file 'app/assets/javascripts/application.js', <<DOC
 //= require jquery_ujs
 //= require turbolinks
 DOC
+
+remove_file 'config/database.yml'
+adapter = if defined?(PG)
+            'postgresql'
+          end
+create_file 'config/database.yml', <<DOC
+development:
+  database: simple_captcha_reloaded_development
+  adapter: #{adapter}
+  pool: 5
+test:
+  database: simple_captcha_reloaded_test
+  adapter: #{adapter}
+  pool: 5
+DOC

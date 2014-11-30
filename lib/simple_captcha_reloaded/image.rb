@@ -1,4 +1,4 @@
-require 'tempfile'
+require 'open3'
 module SimpleCaptchaReloaded
   class Image
     IMAGE_STYLES = {
@@ -69,15 +69,20 @@ module SimpleCaptchaReloaded
       @distortion_function.call()
     end
 
-    def run(cmd, params = "", expected_outcodes = 0)
+    def run(cmd, params = "")
       command = %Q[#{cmd} #{params}].gsub(/\s+/, " ")
       command = "#{command} 2>&1"
       unless (image_magick_path = @image_magick_path).blank?
         command = File.join(image_magick_path, command)
       end
-      output = `#{command}`
-      unless [expected_outcodes].flatten.include?($?.exitstatus)
-        raise ::StandardError, "Error while running #{cmd}: #{output}"
+      stderr_r, stderr_w = IO.pipe
+      stdout_r, stdout_w = IO.pipe
+      success = system(command, out: stdout_w, err: stderr_w)
+      stdout_w.close; stderr_w.close
+      output = stdout_r.read
+      error = stderr_r.read
+      unless success
+        raise ::StandardError, "Error while running #{command}\n Exit Code: #{$?}\n stderr:#{error.inspect}\n stdout:#{output.inspect}"
       end
       output
     end

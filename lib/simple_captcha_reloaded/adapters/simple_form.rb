@@ -1,9 +1,14 @@
+require 'simple_form/version'
 class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
-  def input
+  def input(wrapper_options=nil)
     set_options
     code = get_code
 
-    input = super
+    if SimpleForm::VERSION[/^3\.0/]
+      input = super()
+    else
+      input = super
+    end
     refresh = if options[:captcha][:refresh_button]
                 refresh_button(code)
               else

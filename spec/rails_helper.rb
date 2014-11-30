@@ -4,6 +4,7 @@ require 'spec_helper'
 
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
+ActiveRecord::Migration.maintain_test_schema!
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 
@@ -15,9 +16,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   def screenshot(path: "screenshot")
     page.save_screenshot("public/#{path}.jpg", full: true)
-  end
-  config.before(:suite) do
-    ActiveRecord::Migration.maintain_test_schema!
   end
 end
 

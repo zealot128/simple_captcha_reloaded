@@ -12,6 +12,7 @@ describe SimpleCaptchaReloaded::Middleware do
   specify "generates captcha" do
     SimpleCaptchaReloaded::Data.create!(key: '123123', value: 'ABCABC')
     response = get '/simple_captcha', { code: '123123' }
+    response.inspect
     expect(response.status).to eql 200
     expect(response.header['Content-Type']).to eql 'image/jpeg'
     expect(response.header['Content-Length'].to_i).to be > 100
