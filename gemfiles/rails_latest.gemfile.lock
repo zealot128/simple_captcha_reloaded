@@ -174,7 +174,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
-    simple_form (3.0.2)
+    simple_form (3.0.3)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
     slim (2.1.0)
