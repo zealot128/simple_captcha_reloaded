@@ -18,3 +18,8 @@ appraise "simple_form-latest" do
   gem 'rails', RAILS_STABLE
   gem 'pg'
 end
+appraise 'mysql' do
+  gem 'simple_form', SIMPLE_FORM_LATEST
+  gem 'rails', RAILS_STABLE
+  gem 'mysql2'
+end

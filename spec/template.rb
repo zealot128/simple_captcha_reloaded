@@ -45,6 +45,8 @@ DOC
 remove_file 'config/database.yml'
 adapter = if defined?(PG)
             'postgresql'
+          elsif defined?(Mysql2)
+            'mysql2'
           end
 create_file 'config/database.yml', <<DOC
 development:
