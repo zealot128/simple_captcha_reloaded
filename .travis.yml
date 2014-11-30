@@ -16,4 +16,6 @@ before_install:
 - TEMPLATE='spec/template.rb' ENGINE='simple_captcha_reloaded' bundle exec rake dummy:app
 - bundle exec rake app:db:test:prepare
 script:
-- bundle exec rspec
+- bundle exec rspec spec/middlewares/
+- bundle exec rspec spec/controllers/
+- bundle exec rspec spec/features/
