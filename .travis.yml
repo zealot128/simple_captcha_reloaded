@@ -3,6 +3,7 @@ gemfile:
 - gemfiles/rails_stable.gemfile
 - gemfiles/simple_form_latest.gemfile
 - gemfiles/rails_latest.gemfile
+- gemfiles/mysql.gemfile
 
 rvm:
 - 2.1.1
