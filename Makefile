@@ -1,5 +1,6 @@
 regenerate:
 	echo "Regenerating dummy app by spec/template.rb..."
+	rm -rf spec/dummy
 	export TEMPLATE='spec/template.rb'
 	export ENGINE='simple_captcha_reloaded'
 	bundle exec rake dummy:app
