@@ -1,0 +1,16 @@
+language: ruby
+gemfile:
+- gemfiles/rails_stable.gemfile
+- gemfiles/simple_form_latest.gemfile
+- gemfiles/rails_latest.gemfile
+
+rvm:
+- 2.1.1
+before_install:
+- mysql -e 'create database simple_captcha_reloaded_test'
+- mysql -e 'create database simple_captcha_reloaded_development'
+- psql -c 'create database simple_captcha_reloaded_test' -U postgres
+- psql -c 'create database simple_captcha_reloaded_development' -U postgres
+- make regenerate
+script:
+- bundle exec rspec
