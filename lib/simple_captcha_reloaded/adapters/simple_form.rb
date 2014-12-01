@@ -2,7 +2,7 @@ require 'simple_form/version'
 class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
   def input(wrapper_options=nil)
     set_options
-    code = get_code
+    @captcha = SimpleCaptchaReloaded.generate_captcha(id: options[:captcha][:id], request: template.request)
 
     if SimpleForm::VERSION[/^3\.0/]
       input = super()
@@ -10,13 +10,13 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
       input = super
     end
     refresh = if options[:captcha][:refresh_button]
-                refresh_button(code)
+                refresh_button(@captcha)
               else
                 ""
               end
     [
-      image_tag(code),
-      captcha_key(code),
+      image_tag(@captcha),
+      captcha_key(@captcha),
       input,
       refresh
     ].join.html_safe
@@ -24,10 +24,9 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
 
   protected
 
-  def refresh_button(code)
+  def refresh_button(captcha)
     template.content_tag :div, class: 'simple-captcha-reload' do
-      url = SimpleCaptchaReloaded::Config.refresh_url(template.request, options[:captcha][:id])
-      template.link_to url, class: options[:captcha][:refresh_button_class], data: {remote: true} do
+      template.link_to captcha[:refresh_url], class: options[:captcha][:refresh_button_class], data: {remote: true} do
         I18n.t('simple_captcha_reloaded.refresh_button_html')
       end
     end
@@ -40,19 +39,12 @@ class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
     options[:wrapper_html][:id] ||= options[:captcha][:id]
   end
 
-  def get_code
-    old_key = template.request.session[:captcha]
-    SimpleCaptchaReloaded::Data.generate_captcha_id(old_key: old_key)
+  def image_tag(captcha)
+    template.content_tag(:img, nil, src: captcha[:captcha_url], alt: 'Captcha', class: 'simple-captcha-image')
   end
 
-
-  def image_tag(code)
-    url = SimpleCaptchaReloaded::Config.image_url(code, template.request)
-    template.content_tag(:img, nil, src: url, alt: 'Captcha', class: 'simple-captcha-image')
-  end
-
-  def captcha_key(code)
-    @builder.hidden_field :captcha_key, value: code
+  def captcha_key(captcha)
+    @builder.hidden_field :captcha_key, value: captcha[:captcha_id]
   end
 
   def default_options

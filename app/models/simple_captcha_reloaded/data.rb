@@ -11,6 +11,15 @@ module SimpleCaptchaReloaded
       key
     end
 
+    def self.valid_captcha?(key,value)
+      element = find_by_key(key)
+      value && element && element.valid_captcha?(value)
+    end
+
+    def valid_captcha?(other)
+      other.present? and value == other.strip.downcase
+    end
+
     def self.clear
       SimpleCaptchaReloaded::Data.where('created_at < ?', 1.hour.ago).delete_all
     end

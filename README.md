@@ -71,14 +71,72 @@ end
 
 Make sure to whiteliste the attributes ``captcha`` and ``captcha_key`` with Strong Parameters.
 
+To show the captcha, you can use the SimpleForm helper:
+
+### Simple Form
+
+The Gem provides a custom input for SimpleForm:
+
+```slim
+= simple_form_for @model do |f|
+  = f.input :captcha, as: :simple_captcha
+  = f.submit
+```
+
+### Formtastic
+
+PLANNED
+
+### Manual by using default Rails view helper
+
+Similar to "Displaying Captcha" below, just change the key and value calls of the ``simple_captcha`` helper method to match your model:
+
+```slim
+= simple_captcha(key: 'user[captcha_key]', value: 'user[captcha]', refresh_button: true)
+```
 
 ### Integration II - Controller
 
+If you need to use the captcha without a model, you can do the show and validation by hand
+
 ## Displaying Captcha
 
-### Simple Form
-### Formtastic
-### Default Rails form helpers
+Within your form, call the function:
+
+```slim
+= form_tag '' do |f|
+  = simple_captcha(key: :captcha_key, value: :captcha, refresh_button: true)
+  = submit_tag 'send'
+```
+
+This method is a thin wrapper which will render the view ``simple_captcha_reloaded/simple_captcha_reloaded.html`` in the end. As this is a Rails engine, you can overwrite the view by creating a ``app/views/simple_captcha_reloaded/_simple_captcha_reloaded.html.erb`` in your project tree.
+
+Adjust it to your needs:
+
+```erb
+<div class='simple-captcha-wrapper' id='<%=id %>'>
+  <%= hidden_field_tag value, captcha[:captcha_id] %>
+  <%= image_tag captcha[:captcha_url], class: 'simple-captcha-image' %>
+  <%= text_field_tag key, class: 'simple-captcha-input' %>
+  <%- if refresh_button %>
+    <%=link_to t('simple_captcha_reloaded.refresh_button_html'), captcha[:refresh_url], data: { remote: true} %>
+  <% end %>
+</div>
+```
+
+### Manual Validation
+
+Now you can call a method in your controller to check if the captcha is valid:
+
+```
+def submit
+  if captcha_valid?(params[:captcha_key], params[:captcha])
+    ..
+  else
+    ... error
+  end
+end
+```
 
 ## Customizing
 
@@ -94,17 +152,17 @@ SimpleCaptchaReloaded::Config.tap do |config|
 end
 ```
 
-To change the appearance of the Captcha, initialize a SimpleCaptchaReloaded::Image.new with different parameters:
+To change the appearance of the Captcha, initialize a SimpleCaptchaReloaded::Image.new with different parameters (default parameters shown):
 
 ```ruby
-SimpleCaptchaReloaded::Config.new(implode: :medium,
+  config.image = SimpleCaptchaReloaded::Image.new(implode: :medium,
     distortion: :random,
     image_styles: IMAGE_STYLES.slice('simply_red', 'simply_green', 'simply_blue'),
     noise: 0,
     size: '100x28',
     image_magick_path: '',
     tmp_path: nil
-    )
+  )
 
 # whereas IMAGE_STYLES are:
 IMAGE_STYLES = {

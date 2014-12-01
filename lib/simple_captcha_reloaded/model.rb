@@ -19,7 +19,7 @@ module SimpleCaptchaReloaded::Model
                        elsif !captcha.present?
                          errors.add :captcha, I18n.t('simple_captcha_reloaded.errors.blank')
                          false
-                       elsif data.value != captcha.downcase.strip
+                       elsif not data.valid_captcha?(captcha)
                          errors.add :captcha, I18n.t('simple_captcha_reloaded.errors.wrong')
                          false
                        else

@@ -1,0 +1,8 @@
+<div class='simple-captcha-wrapper' id='<%=id %>'>
+  <%= hidden_field_tag value, captcha[:captcha_id] %>
+  <%= image_tag captcha[:captcha_url], class: 'simple-captcha-image' %>
+  <%= text_field_tag key, class: 'simple-captcha-input' %>
+  <%- if refresh_button %>
+    <%=link_to t('simple_captcha_reloaded.refresh_button_html'), captcha[:refresh_url], data: { remote: true} %>
+  <% end %>
+</div>
