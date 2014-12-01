@@ -1,6 +1,7 @@
 # Simple Captcha Reloaded
 
 [![Build Status](https://travis-ci.org/zealot128/simple_captcha_reloaded.svg?branch=master)](https://travis-ci.org/zealot128/simple_captcha_reloaded)
+[![Gem Version](https://badge.fury.io/rb/simple_captcha_reloaded.svg)](http://badge.fury.io/rb/simple_captcha_reloaded)
 
 This is a rewrite of the popular Simple-Captcha Gem. Similarily to Simple-Captcha, it provides an easy way to integrate a Captcha into a Rails appliaction. In comparison to the older Gem(s), I decided to drop support for ancient versions of Rails + Formtastic + Mongoid, but also add specs and support for SimpleForm.
 
