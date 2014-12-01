@@ -6,7 +6,7 @@ This is a rewrite of the popular Simple-Captcha Gem. Similarily to Simple-Captch
 
 ## Features
 
-* Works with Rails 4.1+
+* Works with Rails 4.1+, Ruby 2.0+ (keyword arguments)
 * Integrated into Model validation flow
 * Optional controller integration for custom flow
 * Uses a database table to track random captchas
