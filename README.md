@@ -44,8 +44,7 @@ and run ``bundle install``.
 
 Just integrate the module into on of your ActiveModel::Model compliant Models:
 
-```
-
+```ruby
 class Message < ActiveRecord::Base
   include SimpleCaptchaReloaded::Model
 end
@@ -53,7 +52,7 @@ end
 
 this adds 2 new methods: ``valid_with_captcha?`` and ``save_with_captcha`` to the model. Use it like this in controller:
 
-```
+```ruby
 class MessagesController < ApplicationController
   def submit
     @message = Message.new(message_params)
