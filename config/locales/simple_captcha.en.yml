@@ -5,3 +5,10 @@ en:
       blank: 'Please fill in the words above'
       wrong: 'The entered text was not correct. Please try again.'
     refresh_button_html: 'Refresh'
+de:
+  simple_captcha_reloaded:
+    errors:
+      missing_captcha: 'Captcha nicht gefunden'
+      blank: 'Bitte geben Sie den obigen Text ein'
+      wrong: 'Der eingebene Text war leider nicht richtig. Bitte probieren Sie es erneut.'
+    refresh_button_html: 'Neu laden'

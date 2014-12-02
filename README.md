@@ -40,6 +40,13 @@ gem 'simple_captcha_reloaded'
 and run ``bundle install``.
 
 
+Install the migration to create the captcha data table:
+
+```
+rake simple_captcha_reloaded:install:migrations
+rake db:migrate
+```
+
 ### Integration 1: Model based
 
 Just integrate the module into on of your ActiveModel::Model compliant Models:
