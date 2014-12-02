@@ -4,6 +4,8 @@ gemfile:
 - gemfiles/simple_form_latest.gemfile
 - gemfiles/rails_latest.gemfile
 - gemfiles/mysql.gemfile
+- gemfiles/formtastic_latest.gemfile
+- gemfiles/formtastic_stable.gemfile
 
 rvm:
 - 2.1.1
