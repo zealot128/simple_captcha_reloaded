@@ -1,33 +1,35 @@
 require 'rails_helper'
 
 describe 'Form', js: true do
-  describe 'SimpleForm' do
-    specify 'SimpleForm' do
-      visit '/forms/simple_form'
-      find('.simple-captcha-image')
+  if defined?(SimpleForm)
+    describe 'SimpleForm' do
+      specify 'SimpleForm' do
+        visit '/forms/simple_form'
+        find('.simple-captcha-image')
 
-      value = SimpleCaptchaReloaded::Data.first.value
-      fill_in 'Captcha', with: value
-      fill_in "Title", with: 'blah'
+        value = SimpleCaptchaReloaded::Data.first.value
+        fill_in 'Captcha', with: value
+        fill_in "Title", with: 'blah'
 
-      click_on 'Create'
-      expect(find('body').text).to eql 'valid'
-    end
+        click_on 'Create'
+        expect(find('body').text).to eql 'valid'
+      end
 
-    specify 'Refresh Button' do
-      visit '/forms/simple_form'
-      find('.simple-captcha-image')
+      specify 'Refresh Button' do
+        visit '/forms/simple_form'
+        find('.simple-captcha-image')
 
-      click_on 'Refresh'
-      sleep 1
-      expect( SimpleCaptchaReloaded::Data.count ).to eql 2
-      captcha = SimpleCaptchaReloaded::Data.order('id desc').first
-      expect(page.body).to include captcha.key
-      fill_in 'Captcha', with: captcha.value
-      fill_in "Title", with: 'blah'
+        click_on 'Refresh'
+        sleep 1
+        expect( SimpleCaptchaReloaded::Data.count ).to eql 2
+        captcha = SimpleCaptchaReloaded::Data.order('id desc').first
+        expect(page.body).to include captcha.key
+        fill_in 'Captcha', with: captcha.value
+        fill_in "Title", with: 'blah'
 
-      click_on 'Create'
-      expect(find('body').text).to eql 'valid'
+        click_on 'Create'
+        expect(find('body').text).to eql 'valid'
+      end
     end
   end
   specify 'Default Helper + Refresh' do

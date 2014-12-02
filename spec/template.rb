@@ -5,6 +5,9 @@ route "post 'forms/simple_form' => 'forms#simple_form_submit'"
 route "get 'forms/manual'"
 route "post 'forms/manual' => 'forms#manual_submit'"
 
+route "get 'forms/formtastic'"
+route "post 'forms/formtastic' => 'forms#formtastic_submit'"
+
 remove_file 'app/controllers/forms_controller.rb'
 create_file 'app/controllers/forms_controller.rb', %q{
 class FormsController < ApplicationController
@@ -31,6 +34,19 @@ class FormsController < ApplicationController
       render text: 'invalid'
     end
   end
+
+  def formtastic
+    @model = FormModel.new
+  end
+
+  def formtastic_submit
+    @model = FormModel.new(params[:form_model])
+    if @model.valid_with_captcha?
+      render text: 'valid', layout: false
+    else
+      render text: "invalid: #{@model.errors.full_messages.join(' ')}", layout: false, status: 403
+    end
+  end
 end
 }
 
@@ -45,6 +61,12 @@ end
 
 create_file "app/views/forms/simple_form.html.slim", %q{
 = simple_form_for @model, url: '' do |f|
+  = f.input :title
+  = f.input :captcha, as: :simple_captcha
+  = f.submit
+}
+create_file "app/views/forms/formtastic.html.slim", %q{
+= semantic_form_for @model, url: '' do |f|
   = f.input :title
   = f.input :captcha, as: :simple_captcha
   = f.submit

@@ -14,6 +14,9 @@ module SimpleCaptchaReloaded
       if defined?(SimpleForm)
         require 'simple_captcha_reloaded/adapters/simple_form'
       end
+      if defined?(Formtastic)
+        require 'simple_captcha_reloaded/adapters/formtastic'
+      end
     end
 
   end

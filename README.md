@@ -57,7 +57,7 @@ class Message < ActiveRecord::Base
 end
 ```
 
-this adds 2 new methods: ``valid_with_captcha?`` and ``save_with_captcha`` to the model. Use it like this in controller:
+this adds 2 new methods: ``valid_with_captcha?`` and ``save_with_captcha`` to the model, as well as 2 virtual attributes captcha and captcha_key. Use it like this in controller:
 
 ```ruby
 class MessagesController < ApplicationController
@@ -76,7 +76,7 @@ class MessagesController < ApplicationController
 end
 ```
 
-Make sure to whiteliste the attributes ``captcha`` and ``captcha_key`` with Strong Parameters.
+Make sure to whitelist the attributes ``captcha`` and ``captcha_key`` with Strong Parameters.
 
 To show the captcha, you can use the SimpleForm helper:
 

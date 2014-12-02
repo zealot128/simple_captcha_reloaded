@@ -4,7 +4,7 @@ superclass = SimpleForm::Inputs::StringInput
 if defined?(StringInput)
   superclass = StringInput
 end
-class SimpleCaptchaInput < superclass
+class SimpleForm::Inputs::SimpleCaptchaInput < superclass
   def input(wrapper_options=nil)
     set_options
     @captcha = SimpleCaptchaReloaded.generate_captcha(id: options[:captcha][:id], request: template.request)

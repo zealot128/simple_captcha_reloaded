@@ -2,12 +2,13 @@
 
 source "https://rubygems.org"
 
-gem "simple_form", "~> 3.1.0.rc2"
 gem "slim-rails"
 gem "poltergeist"
 gem "jquery-rails"
 gem "turbolinks"
+gem "simple_form", "~> 3.1.0.rc2"
 gem "rails", "~> 4.1.0"
+gem "formtastic", "~> 2.3.1"
 gem "mysql2"
 
 gemspec :path => "../"
