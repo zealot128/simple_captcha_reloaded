@@ -1,4 +1,7 @@
 require 'open3'
+require 'timeout'
+require 'simple_captcha_reloaded/error'
+
 module SimpleCaptchaReloaded
   class Image
     IMAGE_STYLES = {
@@ -25,12 +28,12 @@ module SimpleCaptchaReloaded
     }
 
     def initialize(implode: :medium,
-                   distortion: :random,
-                   image_styles: IMAGE_STYLES,
-                   noise: 0,
+                   distortion: :medium,
+                   image_styles: IMAGE_STYLES.slice('simply_red', 'simply_green', 'simply_blue'),
+                   noise: 1,
                    size: '100x28',
-                   image_magick_path: '',
-                   tmp_path: nil)
+                   image_magick_path: '')
+
       @implode           = implode
       @distortion        = distortion
       if !DISTORTIONS.keys.include?(@distortion)
@@ -41,13 +44,12 @@ module SimpleCaptchaReloaded
       @noise             = noise
       @size              = size
       @image_magick_path = image_magick_path
-      @tmp_path          = tmp_path
     end
 
     def generate(text)
       amplitude, frequency = calculate_distortion
 
-      params = image_params
+      params = image_params.dup
       params << "-size #{@size}"
       params << "-wave #{amplitude}x#{frequency}"
       params << "-gravity Center"
@@ -56,7 +58,7 @@ module SimpleCaptchaReloaded
       params << "label:#{text}"
       params << "-evaluate Uniform-noise #{@noise}"
       params << "jpeg:-"
-      run("convert", params.join(' '))
+      run("convert", params: params.join(' '))
     end
 
     protected
@@ -69,22 +71,26 @@ module SimpleCaptchaReloaded
       @distortion_function.call()
     end
 
-    def run(cmd, params = "")
+    def run(cmd, params: "", count: 0)
       command = %Q[#{cmd} #{params}].gsub(/\s+/, " ")
       command = "#{command} 2>&1"
       unless (image_magick_path = @image_magick_path).blank?
         command = File.join(image_magick_path, command)
       end
-      stderr_r, stderr_w = IO.pipe
-      stdout_r, stdout_w = IO.pipe
-      success = system(command, out: stdout_w, err: stderr_w)
-      stdout_w.close; stderr_w.close
-      output = stdout_r.read
-      error = stderr_r.read
-      unless success
-        raise ::StandardError, "Error while running #{command}\n Exit Code: #{$?}\n stderr:#{error.inspect}\n stdout:#{output.inspect}"
+      output = nil
+      Timeout::timeout(SimpleCaptchaReloaded::Config.timeout) {
+        output = `#{command}`
+      }
+      unless $?.success?
+        raise SimpleCaptchaReloaded::Error, "Error while running #{command}\n Exit Code: #{$?}\n stdout:#{output.inspect}"
       end
       output
+    rescue Timeout::Error
+      if count > 3
+        run(cmd, params: params, count: count + 1)
+      else
+        raise SimpleCaptchaReloaded::Error, "Error while running #{command} #{count + 1} times. Timed out after #{SimpleCaptchaReloaded::Config.timeout} seconds."
+      end
     end
   end
 end

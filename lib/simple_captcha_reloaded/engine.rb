@@ -4,14 +4,16 @@ module SimpleCaptchaReloaded
   class Engine < ::Rails::Engine
     isolate_namespace SimpleCaptchaReloaded
     initializer "simple_captcha.load" do |app|
-      if defined?(SimpleForm)
-        require 'simple_captcha_reloaded/adapters/simple_form'
-      end
       ActiveSupport.on_load :action_controller do
         helper SimpleCaptchaReloaded::ViewHelper
         ActionController::Base.send(:include, SimpleCaptchaReloaded::ControllerHelper)
       end
       app.middleware.use SimpleCaptchaReloaded::Middleware
+    end
+    config.after_initialize do
+      if defined?(SimpleForm)
+        require 'simple_captcha_reloaded/adapters/simple_form'
+      end
     end
 
   end

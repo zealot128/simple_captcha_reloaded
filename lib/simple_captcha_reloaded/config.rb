@@ -3,6 +3,7 @@ class SimpleCaptchaReloaded::Config
   cattr_accessor :image
   cattr_accessor :characters
   cattr_accessor :length
+  cattr_accessor :timeout
 
   def self.image_url(code, request)
     time = Time.now.to_i
@@ -37,5 +38,6 @@ SimpleCaptchaReloaded::Config.tap do |config|
   config.image = SimpleCaptchaReloaded::Image.new
   config.characters = %w[a b c d e f g h j k m n p q r s t u v w x y z 0 2 3 4 5 6 8 9]
   config.length = 6
+  config.timeout = 3
 end
 

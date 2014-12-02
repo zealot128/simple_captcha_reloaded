@@ -1,5 +1,10 @@
 require 'simple_form/version'
-class SimpleCaptchaInput < SimpleForm::Inputs::StringInput
+# to accommodate for the Bootstrap 3 Simple Form config
+superclass = SimpleForm::Inputs::StringInput
+if defined?(StringInput)
+  superclass = StringInput
+end
+class SimpleCaptchaInput < superclass
   def input(wrapper_options=nil)
     set_options
     @captcha = SimpleCaptchaReloaded.generate_captcha(id: options[:captcha][:id], request: template.request)
