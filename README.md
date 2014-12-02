@@ -115,9 +115,9 @@ Adjust it to your needs:
 
 ```erb
 <div class='simple-captcha-wrapper' id='<%=id %>'>
-  <%= hidden_field_tag value, captcha[:captcha_id] %>
+  <%= hidden_field_tag key, captcha[:captcha_id] %>
   <%= image_tag captcha[:captcha_url], class: 'simple-captcha-image' %>
-  <%= text_field_tag key, class: 'simple-captcha-input' %>
+  <%= text_field_tag value, '', class: 'simple-captcha-input' %>
   <%- if refresh_button %>
     <%=link_to t('simple_captcha_reloaded.refresh_button_html'), captcha[:refresh_url], data: { remote: true} %>
   <% end %>
@@ -128,7 +128,7 @@ Adjust it to your needs:
 
 Now you can call a method in your controller to check if the captcha is valid:
 
-```
+```ruby
 def submit
   if captcha_valid?(params[:captcha_key], params[:captcha])
     ..
