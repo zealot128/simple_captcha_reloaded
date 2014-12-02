@@ -11,12 +11,14 @@ module SimpleCaptchaReloaded
       app.middleware.use SimpleCaptchaReloaded::Middleware
     end
     config.after_initialize do
-      if defined?(SimpleForm)
-        require 'simple_captcha_reloaded/adapters/simple_form'
-      end
-      if defined?(Formtastic)
-        require 'simple_captcha_reloaded/adapters/formtastic'
-      end
+      # if SimpleCaptchaReloaded::Config.autoloading
+      #   if defined?(SimpleForm)
+      #     require 'simple_captcha_reloaded/adapters/simple_form'
+      #   end
+      #   if defined?(Formtastic)
+      #     require 'simple_captcha_reloaded/adapters/formtastic'
+      #   end
+      # end
     end
 
   end

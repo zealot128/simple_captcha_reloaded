@@ -59,6 +59,15 @@ class FormModel
 end
 }
 
+create_file 'config/initializers/simple_captcha.rb', %q{
+if defined?(SimpleForm)
+  require 'simple_captcha_reloaded/adapters/simple_form'
+end
+if defined?(Formtastic)
+  require 'simple_captcha_reloaded/adapters/formtastic'
+end
+}
+
 create_file "app/views/forms/simple_form.html.slim", %q{
 = simple_form_for @model, url: '' do |f|
   = f.input :title

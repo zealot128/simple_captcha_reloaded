@@ -3,19 +3,21 @@
 [![Build Status](https://travis-ci.org/zealot128/simple_captcha_reloaded.svg?branch=master)](https://travis-ci.org/zealot128/simple_captcha_reloaded)
 [![Gem Version](https://badge.fury.io/rb/simple_captcha_reloaded.svg)](http://badge.fury.io/rb/simple_captcha_reloaded)
 
-This is a rewrite of the popular Simple-Captcha Gem. Similarily to Simple-Captcha, it provides an easy way to integrate a Captcha into a Rails appliaction. In comparison to the older Gem(s), I decided to drop support for ancient versions of Rails + Formtastic + Mongoid, but also add specs and support for SimpleForm.
+This is a rewrite of the popular Simple-Captcha Gem(s). Similarly to Simple-Captcha, it provides an easy way to integrate a Captcha into a Rails application. In comparison to the older Gem(s), I decided to drop support for ancient versions of Rails + Formtastic + Mongoid, but instead add specs, code restructuring and support for SimpleForm, with the goal, to make it even easier to use.
 
 ## Features
 
-* Works with Rails 4.1+, Ruby 2.0+ (keyword arguments)
+* Works with Rails 4.1, 4.2, Ruby 2.0+ (keyword arguments)
 * Integrated into Model validation flow
-* Optional controller integration for custom flow
-* Uses a database table to track random captchas
-* Uses imagemagick to generate the captcha and stream it to the client, without file access
+* controller integration for custom flow
+* Optional SimpleForm integration (v.3.0 and 3.1)
+* Optional Formtastic integration (v.2.3 and 3.1)
+* Uses a database table to track random captchas (pg, myqsl, sqlite tested)
+* Uses Imagemagick to generate the Captcha and stream it to the client, without file access
 
 ## Prerequisites
 
-This needs Rails (4.1+), ActiveRecord with a database (all should be fine) and imagemagick.
+This needs Rails (4.1+), ActiveRecord with a database (all should be fine) and Imagemagick installed on the server.
 
 Mac:
 
@@ -78,7 +80,7 @@ end
 
 Make sure to whitelist the attributes ``captcha`` and ``captcha_key`` with Strong Parameters.
 
-To show the captcha, you can use the SimpleForm helper:
+To show the captcha, you can use the SimpleForm or Formtastic helper or roll a total custom field:
 
 ### Simple Form
 
@@ -90,9 +92,22 @@ The Gem provides a custom input for SimpleForm:
   = f.submit
 ```
 
+To use it, just require it manually anywhere in your code (config/application.rb or a initializer file):
+
+```ruby
+require 'simple_captcha_reloaded/adapters/simple_form'
+```
+
+
 ### Formtastic
 
-PLANNED
+The Formtastic adapter works exactly like the simple form one.
+
+*You can't include both at the same time, as both have the same naming schema and will load each other's adapter*
+
+```ruby
+require 'simple_captcha_reloaded/adapters/formtastic'
+```
 
 ### Manual by using default Rails view helper
 
@@ -133,7 +148,7 @@ Adjust it to your needs:
 
 ### Manual Validation
 
-Now you can call a method in your controller to check if the captcha is valid:
+Now you can call a method in your controller to check if the Captcha is valid:
 
 ```ruby
 def submit
@@ -146,6 +161,8 @@ end
 ```
 
 ## Customizing
+
+Translations: Just have a look at config/locales/simple_captcha.en.yml with defaults for German and English. Just overwrite the keys in your own translation file.
 
 ### Captcha Options
 
@@ -199,3 +216,11 @@ The Gem uses **Appraisal**, to create various configuration Gem sets. For each G
 
 If you need to add new controller methods to the dummy app, have a look at ``spec/template.rb``
 
+
+## Acknowledgment
+
+This rewrite was heavy inspired by the previous SimpleCaptcha Gems (licensed under MIT) by various authors:
+
+* Sur Max
+* Igor Galeta
+* Azdaroth
