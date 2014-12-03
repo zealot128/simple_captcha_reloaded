@@ -33,6 +33,5 @@ end
 appraise 'mysql' do
   gem 'simple_form', SIMPLE_FORM_LATEST
   gem 'rails', RAILS_STABLE
-  gem 'formtastic', FORMTASTIC_STABLE
   gem 'mysql2'
 end
