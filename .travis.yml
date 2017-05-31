@@ -9,6 +9,8 @@ gemfile:
 
 rvm:
 - 2.1.1
+- 2.4.0
+
 before_install:
 - mysql -e 'create database simple_captcha_reloaded_test'
 - mysql -e 'create database simple_captcha_reloaded_development'

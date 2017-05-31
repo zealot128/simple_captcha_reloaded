@@ -10,4 +10,4 @@ gem "rails", "~> 4.1.0"
 gem "simple_form", "~> 3.0.0"
 gem "pg"
 
-gemspec :path => "../"
+gemspec path: "../"
