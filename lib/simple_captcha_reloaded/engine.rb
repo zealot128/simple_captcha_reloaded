@@ -5,21 +5,20 @@ module SimpleCaptchaReloaded
     isolate_namespace SimpleCaptchaReloaded
     initializer "simple_captcha.load" do |app|
       ActiveSupport.on_load :action_controller do
-        helper SimpleCaptchaReloaded::ViewHelper
-        ActionController::Base.send(:include, SimpleCaptchaReloaded::ControllerHelper)
+        if defined?(helper)
+          helper SimpleCaptchaReloaded::ViewHelper
+          ActionController::Base.send(:include, SimpleCaptchaReloaded::ControllerHelper)
+        end
       end
       app.middleware.use SimpleCaptchaReloaded::Middleware
     end
     config.after_initialize do
-      # if SimpleCaptchaReloaded::Config.autoloading
-      #   if defined?(SimpleForm)
-      #     require 'simple_captcha_reloaded/adapters/simple_form'
-      #   end
-      #   if defined?(Formtastic)
-      #     require 'simple_captcha_reloaded/adapters/formtastic'
-      #   end
-      # end
+      if defined?(SimpleForm)
+        require 'simple_captcha_reloaded/adapters/simple_form'
+      end
+      if defined?(Formtastic)
+        require 'simple_captcha_reloaded/adapters/formtastic'
+      end
     end
-
   end
 end
